@@ -8,6 +8,7 @@ import io.github.yezhihao.netmc.core.HandlerMapping;
 import io.github.yezhihao.netmc.core.SpringHandlerMapping;
 import io.github.yezhihao.netmc.session.SessionListener;
 import io.github.yezhihao.netmc.session.SessionManager;
+import io.github.yezhihao.protostar.MLoadStrategy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,12 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.yzh.protocol.codec.JTMessageEncoder;
-import org.yzh.protocol.codec.MultiPacketDecoder;
 import org.yzh.web.endpoint.JTHandlerInterceptor;
 import org.yzh.web.endpoint.JTMultiPacketListener;
 import org.yzh.web.endpoint.JTSessionListener;
-import org.yzh.protocol.SessionKey;
+import org.yzh.web.model.enums.SessionKey;
 
 @Configuration
 @ConditionalOnProperty(value = "tcp-server.jt808.enable", havingValue = "true")
@@ -68,11 +67,8 @@ public class JTConfig {
     }
 
     @Bean
-    public JTMessageAdapter messageAdapter() {
-        return new JTMessageAdapter(
-                new JTMessageEncoder("org.yzh.protocol"),
-                new MultiPacketDecoder("org.yzh.protocol", multiPacketListener())
-        );
+    public JTMessageAdapter messageAdapter(MLoadStrategy loadStrategy) {
+        return new JTMessageAdapter(loadStrategy);
     }
 
     @Bean

@@ -19,9 +19,9 @@ import org.yzh.commons.mybatis.Page;
 import org.yzh.commons.mybatis.PageInfo;
 import org.yzh.commons.mybatis.Pagination;
 import org.yzh.web.endpoint.LoggingPusher;
-import org.yzh.protocol.SessionKey;
-import org.yzh.protocol.DeviceInfo;
-import org.yzh.web.model.vo.Location;
+import org.yzh.web.model.enums.SessionKey;
+import org.yzh.web.model.vo.DeviceInfo;
+import org.yzh.web.model.entity.LocationDO;
 import org.yzh.web.model.vo.LocationQuery;
 import org.yzh.web.service.LocationService;
 
@@ -98,8 +98,8 @@ public class OtherController {
 
     @Operation(summary = "位置信息查询")
     @GetMapping("location")
-    public Pagination<Location> find(LocationQuery query, PageInfo pageInfo) {
-        Pagination<Location> result = Page.start(() -> locationService.find(query), pageInfo);
+    public Pagination<LocationDO> find(LocationQuery query, PageInfo pageInfo) {
+        Pagination<LocationDO> result = Page.start(() -> locationService.find(query), pageInfo);
         return result;
     }
 

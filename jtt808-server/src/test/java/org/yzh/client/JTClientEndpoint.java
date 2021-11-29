@@ -8,6 +8,7 @@ import org.yzh.protocol.basics.JTMessage;
 import org.yzh.protocol.commons.JT808;
 import org.yzh.protocol.t808.*;
 import org.yzh.web.endpoint.JT808Endpoint;
+import org.yzh.web.model.vo.Location;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -85,8 +86,8 @@ public class JTClientEndpoint {
     }
 
     @Mapping(types = 位置信息查询, desc = "位置信息查询")
-    public T0200 位置信息查询(JTMessage message) {
-        T0200 result = new T0200();
+    public Location 位置信息查询(JTMessage message) {
+        Location result = new Location();
         //TODO
         return result;
     }

@@ -14,8 +14,9 @@ import org.yzh.protocol.commons.JT808;
 import org.yzh.protocol.t808.*;
 import org.yzh.commons.util.EncryptUtils;
 import org.yzh.commons.model.Result;
-import org.yzh.protocol.SessionKey;
-import org.yzh.protocol.DeviceInfo;
+import org.yzh.web.model.enums.SessionKey;
+import org.yzh.web.model.vo.DeviceInfo;
+import org.yzh.web.model.vo.Location;
 import org.yzh.web.service.DeviceService;
 import org.yzh.web.service.FileService;
 import org.yzh.web.service.LocationService;
@@ -129,15 +130,15 @@ public class JT808Endpoint {
      */
     @AsyncBatch(poolSize = 2, maxElements = 4000, maxWait = 1000)
     @Mapping(types = 位置信息汇报, desc = "位置信息汇报")
-    public void locationReport(List<T0200> list) {
+    public void locationReport(List<Location> list) {
         locationService.batchInsert(list);
     }
 
     @Mapping(types = 定位数据批量上传, desc = "定位数据批量上传")
     public void locationBatchReport(T0704 message) {
         Session session = message.getSession();
-        List<T0200> list = new AdapterList<>(message.getItems(), item -> {
-            T0200 location = item.getLocation();
+        List<Location> list = new AdapterList<>(message.getItems(), item -> {
+            Location location = (Location) item.getLocation();
             location.copyBy(message);
             location.setSession(session);
             location.transform();

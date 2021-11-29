@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.yzh.protocol.t808.T0200;
+import org.yzh.web.model.vo.Location;
 import org.yzh.protocol.commons.DateUtils;
 import org.yzh.commons.util.IOUtils;
 import org.yzh.web.mapper.LocationMapper;
-import org.yzh.web.model.vo.Location;
+import org.yzh.web.model.entity.LocationDO;
 import org.yzh.web.model.vo.LocationQuery;
 import org.yzh.web.service.LocationService;
 
@@ -33,13 +33,13 @@ public class LocationServiceImpl implements LocationService {
     private DataSource dataSource;
 
     @Override
-    public List<Location> find(LocationQuery query) {
-        List<Location> result = locationMapper.find(query);
+    public List<LocationDO> find(LocationQuery query) {
+        List<LocationDO> result = locationMapper.find(query);
         return result;
     }
 
     @Override
-    public void batchInsert(List<T0200> list) {
+    public void batchInsert(List<Location> list) {
         //MySQL预编译语句不支持批量写入，改用SQL拼接方式
 //        jdbcBatchInsert(list);
         jdbcSQLInsert(list);
@@ -48,7 +48,7 @@ public class LocationServiceImpl implements LocationService {
     private static final String SQL_HEAD = "insert ignore into location (device_time,device_id,mobile_no,vehicle_id,warn_bit,status_bit,longitude,latitude,altitude,speed,direction,created_at) values ";
     private static final String SQL = SQL_HEAD + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    public void jdbcBatchInsert(List<T0200> list) {
+    public void jdbcBatchInsert(List<Location> list) {
         LocalDateTime now = LocalDateTime.now();
         int size = list.size();
 
@@ -58,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(SQL);
             for (int i = 0; i < size; i++) {
-                T0200 request = list.get(i);
+                Location request = list.get(i);
                 int j = 1;
 
                 statement.setObject(j++, request.getDeviceTime());
@@ -84,7 +84,7 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    public void jdbcSQLInsert(List<T0200> list) {
+    public void jdbcSQLInsert(List<Location> list) {
         String now = DateUtils.DATE_TIME_FORMATTER.format(LocalDateTime.now());
         int size = list.size();
 
@@ -92,7 +92,7 @@ public class LocationServiceImpl implements LocationService {
         builder.append(SQL_HEAD);
 
         for (int i = 0; i < size; i++) {
-            T0200 request = list.get(i);
+            Location request = list.get(i);
 
             builder.append('(');
             builder.append('\'').append(DateUtils.DATE_TIME_FORMATTER.format(request.getDeviceTime())).append('\'').append(',');

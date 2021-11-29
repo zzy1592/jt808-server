@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import io.github.yezhihao.protostar.MLoadStrategy;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -26,6 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public MLoadStrategy loadStrategy() {
+        return new MLoadStrategy(256, "org.yzh.protocol", "org.yzh.web.model.vo");
+    }
 
     @Bean
     public CacheManager cacheManager() {

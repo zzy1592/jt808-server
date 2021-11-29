@@ -1,6 +1,6 @@
 package org.yzh.protocol.codec;
 
-import io.github.yezhihao.protostar.ProtostarUtil;
+import io.github.yezhihao.protostar.MLoadStrategy;
 import io.github.yezhihao.protostar.Schema;
 import io.github.yezhihao.protostar.schema.RuntimeSchema;
 import io.netty.buffer.*;
@@ -20,11 +20,13 @@ public class JTMessageEncoder {
 
     private static final ByteBufAllocator ALLOC = PooledByteBufAllocator.DEFAULT;
 
+    private final MLoadStrategy loadStrategy;
+
     private final Map<Integer, RuntimeSchema<JTMessage>> headerSchemaMap;
 
-    public JTMessageEncoder(String basePackage) {
-        ProtostarUtil.initial(basePackage);
-        this.headerSchemaMap = ProtostarUtil.getRuntimeSchema(JTMessage.class);
+    public JTMessageEncoder(MLoadStrategy loadStrategy) {
+        this.loadStrategy = loadStrategy;
+        this.headerSchemaMap = loadStrategy.getRuntimeSchema(JTMessage.class);
     }
 
     public ByteBuf encode(JTMessage message) {
@@ -33,7 +35,7 @@ public class JTMessageEncoder {
         int bodyLength = 0;
 
         Schema headSchema = headerSchemaMap.get(version);
-        Schema bodySchema = ProtostarUtil.getRuntimeSchema(message.getMessageId(), version);
+        Schema bodySchema = loadStrategy.getRuntimeSchema(message.getMessageId(), version);
 
         ByteBuf output;
         if (bodySchema != null) {

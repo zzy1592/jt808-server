@@ -3,6 +3,7 @@ package org.yzh.protocol.basics;
 import io.github.yezhihao.netmc.core.model.Message;
 import io.github.yezhihao.netmc.session.Session;
 import io.github.yezhihao.protostar.DataType;
+import io.github.yezhihao.protostar.Schema;
 import io.github.yezhihao.protostar.annotation.Field;
 import io.github.yezhihao.protostar.util.ToStringBuilder;
 import io.netty.buffer.ByteBuf;
@@ -15,7 +16,7 @@ import java.beans.Transient;
  * @home https://gitee.com/yezhihao/jt808-server
  */
 //@JsonIgnoreProperties({"messageId", "properties", "protocolVersion", "clientId", "serialNo", "packageTotal", "packageNo", "verified", "bodyLength", "encryption", "subpackage", "version", "reserved"})
-public class JTMessage implements Message {
+public class JTMessage implements Message, Schema<JTMessage> {
 
     @Field(index = 0, type = DataType.WORD, desc = "消息ID")
     protected int messageId;
@@ -240,5 +241,15 @@ public class JTMessage implements Message {
         sb.append(',');
         String result = ToStringBuilder.toString(sb, this, false, "messageId", "clientId", "protocolVersion", "serialNo", "properties", "packageTotal", "packageNo");
         return result;
+    }
+
+    @Override
+    public JTMessage readFrom(ByteBuf input) {
+        return null;
+    }
+
+    @Override
+    public void writeTo(ByteBuf output, JTMessage message) {
+
     }
 }

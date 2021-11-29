@@ -21,12 +21,12 @@ public class MultiPacketDecoder extends JTMessageDecoder {
 
     private final MultiPacketListener multiPacketListener;
 
-    public MultiPacketDecoder(String basePackage) {
-        this(basePackage, new MultiPacketListener(20));
+    public MultiPacketDecoder(String... basePackages) {
+        this(new MultiPacketListener(20), basePackages);
     }
 
-    public MultiPacketDecoder(String basePackage, MultiPacketListener multiPacketListener) {
-        super(basePackage);
+    public MultiPacketDecoder(MultiPacketListener multiPacketListener, String... basePackages) {
+        super(basePackages);
         this.multiPacketListener = multiPacketListener;
         startListener();
     }

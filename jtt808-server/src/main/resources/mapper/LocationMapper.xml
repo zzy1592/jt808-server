@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yzh.web.mapper.LocationMapper">
 
-    <select id="find" parameterType="org.yzh.web.model.vo.LocationQuery" resultType="org.yzh.web.model.vo.Location">
+    <select id="find" parameterType="org.yzh.web.model.vo.LocationQuery" resultType="org.yzh.web.model.entity.LocationDO">
         select *
         from location
         <where>

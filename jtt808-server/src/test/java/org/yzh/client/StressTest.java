@@ -5,7 +5,7 @@ import org.yzh.protocol.commons.DateUtils;
 import org.yzh.commons.util.StrUtils;
 import org.yzh.protocol.commons.JT808;
 import org.yzh.protocol.t808.T0100;
-import org.yzh.protocol.t808.T0200;
+import org.yzh.web.model.vo.Location;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -85,10 +85,10 @@ public class StressTest {
         return message;
     }
 
-    public static T0200 T0200(String id, String time, int[] point) {
+    public static Location T0200(String id, String time, int[] point) {
         String clientId = "1" + StrUtils.leftPad(id, 10, '0');
 
-        T0200 message = new T0200();
+        Location message = new Location();
         message.setMessageId(JT808.位置信息汇报);
         message.setProtocolVersion(ProtocolVersion);
         message.setVersion(true);

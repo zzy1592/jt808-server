@@ -1,7 +1,10 @@
 package org.yzh.protocol.commons.transform.parameter;
 
+import io.github.yezhihao.protostar.Schema;
 import io.github.yezhihao.protostar.annotation.Field;
 import io.netty.buffer.ByteBuf;
+
+import java.util.Arrays;
 
 /**
  * 高级驾驶辅助系统参数
@@ -9,6 +12,14 @@ import io.netty.buffer.ByteBuf;
  * @home https://gitee.com/yezhihao/jt808-server
  */
 public class ParamADAS {
+
+    public static void main(String[] args) throws IllegalAccessException {
+        Class<?>[] declaredClasses = ParamADAS.class.getClasses();
+        java.lang.reflect.Field[] fields = declaredClasses[0].getFields();
+
+        Schema o = (Schema) fields[0].get(null);
+        System.out.println(o);
+    }
 
     public static final int id = 0xF364;
 

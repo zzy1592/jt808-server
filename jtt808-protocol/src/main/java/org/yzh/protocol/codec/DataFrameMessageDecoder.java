@@ -17,8 +17,8 @@ public class DataFrameMessageDecoder extends JTMessageDecoder {
     private final RuntimeSchema<DataPacket> dataFrameSchema;
     private final byte[] dataFramePrefix;
 
-    public DataFrameMessageDecoder(String basePackage, byte[] dataFramePrefix) {
-        super(basePackage);
+    public DataFrameMessageDecoder(byte[] dataFramePrefix, String... basePackages) {
+        super(basePackages);
         this.dataFramePrefix = dataFramePrefix;
         this.dataFrameSchema = ProtostarUtil.getRuntimeSchema(DataPacket.class, 0);
     }

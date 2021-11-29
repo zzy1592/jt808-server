@@ -1,4 +1,4 @@
-package org.yzh.web.config;
+package org.yzh.protocol.codec;
 
 import io.github.yezhihao.netmc.codec.MessageDecoder;
 import io.github.yezhihao.netmc.codec.MessageEncoder;
@@ -19,7 +19,7 @@ import org.yzh.web.endpoint.LoggingPusher;
  * @author yezhihao
  * @home https://gitee.com/yezhihao/jt808-server
  */
-public class JTMessageAdapter implements MessageEncoder<JTMessage>, MessageDecoder<JTMessage> {
+public class Def implements MessageEncoder<JTMessage>, MessageDecoder<JTMessage> {
 
     private static final Logger log = LoggerFactory.getLogger(JTMessageAdapter.class.getSimpleName());
 

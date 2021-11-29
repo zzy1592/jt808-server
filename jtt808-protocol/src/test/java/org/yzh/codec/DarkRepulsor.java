@@ -19,7 +19,7 @@ public class DarkRepulsor {
 
     static {
         FieldFactory.EXPLAIN = true;
-        encoder = new JTMessageEncoder("org.yzh.protocol");
+        encoder = new JTMessageEncoder("org.yzh.protocol", "org.yzh.codec.protocol");
     }
 
     public static void main(String[] args) {

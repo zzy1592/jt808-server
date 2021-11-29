@@ -1,8 +1,8 @@
-package org.yzh.protocol;
+package org.yzh.web.model.enums;
 
 import io.github.yezhihao.netmc.session.Session;
 import org.yzh.protocol.basics.JTMessageFilter;
-import org.yzh.protocol.t808.T0200;
+import org.yzh.web.model.vo.Location;
 
 /**
  * @author yezhihao
@@ -14,12 +14,12 @@ public enum SessionKey {
     Snapshot,
     AreaFilter;
 
-    public static org.yzh.protocol.DeviceInfo getDeviceInfo(Session session) {
-        return (org.yzh.protocol.DeviceInfo) session.getAttribute(DeviceInfo);
+    public static org.yzh.web.model.vo.DeviceInfo getDeviceInfo(Session session) {
+        return (org.yzh.web.model.vo.DeviceInfo) session.getAttribute(DeviceInfo);
     }
 
-    public static T0200 getSnapshot(Session session) {
-        return (T0200) session.getAttribute(Snapshot);
+    public static Location getSnapshot(Session session) {
+        return (Location) session.getAttribute(Snapshot);
     }
 
     public static JTMessageFilter getAreaFilter(Session session) {

@@ -1,6 +1,6 @@
 package org.yzh.protocol.codec;
 
-import io.github.yezhihao.protostar.ProtostarUtil;
+import io.github.yezhihao.protostar.MLoadStrategy;
 import io.github.yezhihao.protostar.schema.RuntimeSchema;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.CompositeByteBuf;
@@ -21,11 +21,13 @@ import java.util.Map;
  */
 public class JTMessageDecoder {
 
+    private final MLoadStrategy loadStrategy;
+
     private final Map<Integer, RuntimeSchema<JTMessage>> headerSchemaMap;
 
-    public JTMessageDecoder(String basePackage) {
-        ProtostarUtil.initial(basePackage);
-        this.headerSchemaMap = ProtostarUtil.getRuntimeSchema(JTMessage.class);
+    public JTMessageDecoder(MLoadStrategy loadStrategy) {
+        this.loadStrategy = loadStrategy;
+        this.headerSchemaMap = loadStrategy.getRuntimeSchema(JTMessage.class);
     }
 
     public JTMessage decode(ByteBuf input) {
@@ -43,7 +45,7 @@ public class JTMessageDecoder {
         int headLen = JTUtils.headerLength(version, isSubpackage);
 
         RuntimeSchema<JTMessage> headSchema = headerSchemaMap.get(version);
-        RuntimeSchema<JTMessage> bodySchema = ProtostarUtil.getRuntimeSchema(messageId, version);
+        RuntimeSchema<JTMessage> bodySchema = loadStrategy.getRuntimeSchema(messageId, version);
 
         JTMessage message;
         if (bodySchema == null)
@@ -59,7 +61,7 @@ public class JTMessageDecoder {
 
         int realVersion = message.getProtocolVersion();
         if (realVersion != version)
-            bodySchema = ProtostarUtil.getRuntimeSchema(messageId, realVersion);
+            bodySchema = loadStrategy.getRuntimeSchema(messageId, realVersion);
 
         if (bodySchema != null) {
             int bodyLen = message.getBodyLength();
